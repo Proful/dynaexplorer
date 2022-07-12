@@ -21,6 +21,7 @@ tauri = { version = "1.0.3", features = ["api-all"] }
 aws-config = "0.15.0"
 aws-sdk-dynamodb = "0.15.0"
 tokio = { version = "1", features = ["full"] }
+tokio-stream = "0.1.9"
 
 [features]
 # by default Tauri runs in production mode
