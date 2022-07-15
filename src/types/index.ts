@@ -1,3 +1,10 @@
+export interface Attribute {
+  name: string;
+  value: string;
+}
+
 export interface Item {
-  [key: string]: string;
+  primaryKey: Attribute;
+  sortKey: Attribute;
+  attributes: Attribute[];
 }

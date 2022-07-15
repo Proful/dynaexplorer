@@ -59,7 +59,9 @@
         "height": 600,
         "resizable": true,
         "title": "DynamoDB Explorer",
-        "width": 800
+        "width": 600,
+        "x": 1300,
+        "y": 10
       }
     ]
   }
