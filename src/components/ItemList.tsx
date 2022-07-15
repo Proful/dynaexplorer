@@ -1,23 +1,36 @@
+import { Table, Title, useMantineTheme } from "@mantine/core";
 import { Item } from "../types";
 
 const ItemList = ({ items }: { items: Item[] }) => {
+  const theme = useMantineTheme();
   return (
     <>
-      <h1>Items</h1>
-      <table>
+      <Title order={1}>Items</Title>
+      <Table>
         <tbody>
           {items.map((item) => (
             <tr key={item.sortKey.value}>
-              <td>{`${item.primaryKey.name} => ${item.primaryKey.value}`}</td>
-              <td>{`${item.sortKey.name} => ${item.sortKey.value}`}</td>
+              <td>
+                <p>{item.primaryKey.name}</p>
+                <p style={{ color: theme.colors.blue[2] }}>
+                  {item.primaryKey.value}
+                </p>
+              </td>
+              <td>
+                <p>{item.sortKey.name}</p>
+                <p>{item.sortKey.value}</p>
+              </td>
 
               {item.attributes.map((attr) => (
-                <td key={attr.value}>{`${attr.name} => ${attr.value}`}</td>
+                <td key={attr.value}>
+                  <p>{attr.name}</p>
+                  <p>{attr.value}</p>
+                </td>
               ))}
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
     </>
   );
 };

@@ -61,7 +61,8 @@
         "title": "DynamoDB Explorer",
         "width": 600,
         "x": 1300,
-        "y": 10
+        "y": 10,
+        "alwaysOnTop": true
       }
     ]
   }
