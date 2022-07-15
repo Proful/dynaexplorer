@@ -4,6 +4,7 @@
 )]
 use aws_sdk_dynamodb::{model::KeyType, Client, Endpoint};
 use serde::Serialize;
+use serde_json::Value;
 use tokio_stream::StreamExt;
 
 #[tokio::main]
@@ -85,6 +86,7 @@ async fn describe_table(table_name: String) -> Table {
 struct Attribute {
     name: String,
     value: String,
+    kind: String,
 }
 
 impl Attribute {
@@ -92,10 +94,11 @@ impl Attribute {
         Self {
             name: "".to_string(),
             value: "".to_string(),
+            kind: "string".to_string(),
         }
     }
-    fn from(name: String, value: String) -> Self {
-        Self { name, value }
+    fn from(name: String, value: String, kind: String) -> Self {
+        Self { name, value, kind }
     }
 }
 
@@ -130,7 +133,14 @@ async fn list_items(table_name: String) -> Vec<Item> {
         };
         for (key, value) in item {
             let v = if value.is_s() {
-                value.as_s().unwrap().to_string()
+                let data = value.as_s().unwrap().to_string();
+                let x: Result<Value, _> = serde_json::from_str(&data);
+
+                if let Ok(_) = x {
+                    [data, "json".to_string()]
+                } else {
+                    [data, "string".to_string()]
+                }
             } else if value.is_ss() {
                 let x = value.as_ss().unwrap();
                 let mut s = String::new();
@@ -142,7 +152,7 @@ async fn list_items(table_name: String) -> Vec<Item> {
                     s.pop();
                 }
                 s.push_str("]");
-                s
+                [s, "json".to_string()]
             } else if value.is_m() {
                 let mut m: String = String::new();
                 m.push_str("{");
@@ -150,15 +160,17 @@ async fn list_items(table_name: String) -> Vec<Item> {
                     m.push_str(&format!("\"{}\":{}", k, v.as_s().unwrap()));
                 }
                 m.push_str("}");
-                m
+                [m, "json".to_string()]
             } else {
-                "".to_string()
+                ["".to_string(), "string".to_string()]
             };
 
             match key.as_str() {
-                "PK" => row.primary_key = Attribute::from(key, v),
-                "SK" => row.sort_key = Attribute::from(key, v),
-                _ => row.attributes.push(Attribute::from(key, v)),
+                "PK" => row.primary_key = Attribute::from(key, v[0].clone(), v[1].clone()),
+                "SK" => row.sort_key = Attribute::from(key, v[0].clone(), v[1].clone()),
+                _ => row
+                    .attributes
+                    .push(Attribute::from(key, v[0].clone(), v[1].clone())),
             }
         }
         rows.push(row);

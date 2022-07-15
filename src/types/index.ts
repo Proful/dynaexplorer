@@ -1,6 +1,7 @@
 export interface Attribute {
   name: string;
   value: string;
+  kind: string;
 }
 
 export interface Item {

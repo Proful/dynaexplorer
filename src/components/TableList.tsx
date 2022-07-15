@@ -1,4 +1,5 @@
 import { Anchor, Button, Navbar, Title, useMantineTheme } from "@mantine/core";
+import { Database } from "tabler-icons-react";
 
 type TableListProps = {
   tables: string[];
@@ -13,24 +14,14 @@ const TableList = ({ tables, onTableSelected, onClear }: TableListProps) => {
         <Title order={4}>Tables</Title>
       </Navbar.Section>
       <Navbar.Section grow mt="md">
-        {/* <ul> */}
         {tables.map((t) => (
-          // <li key={t}>
-          <Anchor
-            href="#"
+          <Button
             key={t}
-            onClick={(e: {
-              preventDefault: () => void;
-              stopPropagation: () => void;
-            }) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onTableSelected(t);
-            }}
+            leftIcon={<Database size={14} />}
+            onClick={() => onTableSelected(t)}
           >
             {t}
-          </Anchor>
-          // </li>
+          </Button>
         ))}
         {/* </ul> */}
       </Navbar.Section>
