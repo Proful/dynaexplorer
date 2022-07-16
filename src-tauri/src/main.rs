@@ -40,10 +40,11 @@ async fn list_tables() -> Vec<String> {
 }
 
 #[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
 struct Table {
     name: String,
-    primary_key: String,
-    sort_key: String,
+    primary_key_name: String,
+    sort_key_name: String,
     item_count: i64,
 }
 
@@ -64,15 +65,15 @@ async fn describe_table(table_name: String) -> Table {
 
     let mut table = Table {
         name: table_name.clone(),
-        primary_key: String::new(),
-        sort_key: String::new(),
+        primary_key_name: String::new(),
+        sort_key_name: String::new(),
         item_count: table_desc.item_count,
     };
     for el in key_schema {
         let key_type = el.key_type.unwrap();
         match key_type {
-            KeyType::Hash => table.primary_key = el.attribute_name.unwrap(),
-            KeyType::Range => table.sort_key = el.attribute_name.unwrap(),
+            KeyType::Hash => table.primary_key_name = el.attribute_name.unwrap(),
+            KeyType::Range => table.sort_key_name = el.attribute_name.unwrap(),
             _ => todo!("unknown key type"),
         }
     }
@@ -191,13 +192,13 @@ async fn get_client() -> Client {
 
 #[cfg(test)]
 mod tests_main {
-    //#[tokio::test]
-    async fn _test_describe_table() {
+    #[tokio::test]
+    async fn test_describe_table() {
         let table_name = "sketchnotes_dev_v1".to_string();
         let resp = super::describe_table(table_name.clone()).await;
         assert_eq!(resp.name, table_name);
-        assert_eq!(resp.primary_key, "PK".to_string());
-        assert_eq!(resp.sort_key, "SK".to_string());
+        assert_eq!(resp.primary_key_name, "PK".to_string());
+        assert_eq!(resp.sort_key_name, "SK".to_string());
     }
 
     #[tokio::test]

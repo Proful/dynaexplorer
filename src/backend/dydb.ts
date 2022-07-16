@@ -1,13 +1,15 @@
 import { invoke } from "@tauri-apps/api";
-import { Item } from "../types";
+import { Item, Table } from "../types";
 
 const getTables = async (): Promise<string[]> => {
   const result = (await invoke("list_tables")) as string[];
   return result;
 };
 
-const describeTable = async (tableName: string): Promise<string[]> => {
-  const result = (await invoke("describe_table")) as string[];
+const describeTable = async (tableName: string): Promise<Table> => {
+  const result = (await invoke("describe_table", {
+    tableName: tableName,
+  })) as Table;
   return result;
 };
 

@@ -15,7 +15,7 @@ const ItemList = ({ items }: { items: Item[] }) => {
 
   return (
     <>
-      <Title order={1}>Items</Title>
+      <Title order={3}>Items</Title>
       <Table>
         <tbody>
           {items.map((item, i) => (

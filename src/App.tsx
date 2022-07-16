@@ -4,16 +4,19 @@ import { getItems, getTables } from "./backend/dydb";
 import ItemList from "./components/ItemList";
 import TableList from "./components/TableList";
 import type { Item } from "./types";
+import Filter from "./components/Filter";
 
 function App() {
   const [tables, setTables] = useState<string[]>([]);
   const [items, setItems] = useState<Item[]>([]);
+  const [selectedTable, setSelectedTable] = useState<string>("");
 
   useEffect(() => {
     getTables().then((ts) => setTables(ts));
   }, []);
 
-  const listItems = (tableName: string) => {
+  const onTableSelected = (tableName: string) => {
+    setSelectedTable(tableName);
     getItems(tableName).then((rows) => setItems(rows));
   };
 
@@ -24,7 +27,7 @@ function App() {
         <Navbar width={{ base: 300 }} height={500} p="xs">
           <TableList
             tables={tables}
-            onTableSelected={listItems}
+            onTableSelected={onTableSelected}
             onClear={() => setItems([])}
           />
         </Navbar>
@@ -44,6 +47,7 @@ function App() {
         },
       })}
     >
+      <Filter tableName={selectedTable} />
       <ItemList items={items} />
     </AppShell>
   );

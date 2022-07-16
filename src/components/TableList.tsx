@@ -23,7 +23,6 @@ const TableList = ({ tables, onTableSelected, onClear }: TableListProps) => {
             {t}
           </Button>
         ))}
-        {/* </ul> */}
       </Navbar.Section>
       <Navbar.Section>
         <Button variant="outline" onClick={onClear}>

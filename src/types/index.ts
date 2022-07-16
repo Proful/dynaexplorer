@@ -9,3 +9,10 @@ export interface Item {
   sortKey: Attribute;
   attributes: Attribute[];
 }
+
+export interface Table {
+  name: string;
+  primaryKeyName: string;
+  sortKeyName: string;
+  itemCount: number;
+}
