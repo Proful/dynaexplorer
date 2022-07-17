@@ -47,7 +47,16 @@ function App() {
         },
       })}
     >
-      <Filter tableName={selectedTable} />
+      <Filter
+        tableName={selectedTable}
+        onData={(item) => {
+          if (item) {
+            setItems([item]);
+          } else {
+            setItems([]);
+          }
+        }}
+      />
       <ItemList items={items} />
     </AppShell>
   );

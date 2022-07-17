@@ -21,9 +21,9 @@ const ItemList = ({ items }: { items: Item[] }) => {
           {items.map((item, i) => (
             <tr key={item.sortKey.value}>
               <td>
-                <p>{item.primaryKey.name}</p>
+                <p>{item.partionKey.name}</p>
                 <p style={{ color: theme.colors.blue[2] }}>
-                  {item.primaryKey.value}
+                  {item.partionKey.value}
                 </p>
               </td>
               <td>

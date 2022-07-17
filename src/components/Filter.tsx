@@ -1,19 +1,32 @@
 import { Button, Grid, TextInput, Title } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { describeTable } from "../backend/dydb";
+import { describeTable, getItem } from "../backend/dydb";
+import { Item, Table } from "../types";
 
-const Filter = ({ tableName }: { tableName: string }) => {
-  const [primaryKey, setPrimaryKey] = useState("");
+type FilterProps = {
+  tableName: string;
+  onData: (item: Item) => void;
+};
+
+const Filter = ({ tableName, onData }: FilterProps) => {
+  const [partionKey, setpartionKey] = useState("");
   const [sortKey, setSortKey] = useState("");
+  const [table, setTable] = useState<Table | null>(null);
 
   useEffect(() => {
-    describeTable(tableName).then((t) => {
-      console.log(t);
-    });
-  }, []);
+    if (tableName && tableName.length > 1) {
+      describeTable(tableName).then(setTable);
+    }
+  }, [tableName]);
 
-  const getItem = () => {
-    console.log(primaryKey, sortKey);
+  const get = () => {
+    if (table && partionKey.length > 0 && sortKey.length > 0) {
+      getItem(
+        tableName,
+        { name: table.partionKeyName, value: partionKey },
+        { name: table.sortKeyName, value: sortKey }
+      ).then(onData);
+    }
   };
 
   return (
@@ -22,9 +35,9 @@ const Filter = ({ tableName }: { tableName: string }) => {
       <Grid>
         <Grid.Col span={6}>
           <TextInput
-            placeholder="Primary key"
-            value={primaryKey}
-            onChange={(e) => setPrimaryKey(e.currentTarget.value)}
+            placeholder="Partition key"
+            value={partionKey}
+            onChange={(e) => setpartionKey(e.currentTarget.value)}
           />
         </Grid.Col>
         <Grid.Col span={6}>
@@ -35,7 +48,7 @@ const Filter = ({ tableName }: { tableName: string }) => {
           />
         </Grid.Col>
         <Grid.Col span={6}>
-          <Button variant="outline" onClick={getItem}>
+          <Button variant="outline" onClick={get}>
             Get
           </Button>
         </Grid.Col>
