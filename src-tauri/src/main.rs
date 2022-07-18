@@ -5,11 +5,14 @@
 use std::collections::HashMap;
 
 use aws_sdk_dynamodb::{
-    model::{AttributeValue, KeyType},
+    model::{AttributeValue, KeyType, TableDescription},
     Client, Endpoint,
 };
 use serde::{Deserialize, Serialize};
 use tokio_stream::StreamExt;
+
+// mod dy_table;
+mod test_date;
 
 #[tokio::main]
 async fn main() {
@@ -17,8 +20,8 @@ async fn main() {
         .invoke_handler(tauri::generate_handler![
             list_tables,
             list_items,
-            describe_table,
-            get_item
+            get_item,
+            describe_table
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -96,6 +99,9 @@ async fn describe_table(table_name: String) -> Table {
         .unwrap();
 
     let table_desc = resp.table.unwrap();
+
+    dbg!(&table_desc);
+
     let key_schema = table_desc.key_schema.unwrap();
 
     let mut table = Table {
@@ -115,6 +121,23 @@ async fn describe_table(table_name: String) -> Table {
 
     dbg!(&table);
     table
+}
+
+// #[tauri::command]
+async fn _describe_table_addl_info(table_name: String) -> TableDescription {
+    println!("describe_table: {}", table_name);
+
+    let resp = get_client()
+        .await
+        .describe_table()
+        .table_name(table_name.clone())
+        .send()
+        .await
+        .unwrap();
+
+    let table_desc = resp.table.unwrap();
+
+    table_desc
 }
 
 #[tauri::command]
