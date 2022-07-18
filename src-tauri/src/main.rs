@@ -11,9 +11,6 @@ use aws_sdk_dynamodb::{
 use serde::{Deserialize, Serialize};
 use tokio_stream::StreamExt;
 
-// mod dy_table;
-mod test_date;
-
 #[tokio::main]
 async fn main() {
     tauri::Builder::default()
