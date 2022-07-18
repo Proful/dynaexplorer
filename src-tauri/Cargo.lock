@@ -59,6 +59,7 @@ version = "0.1.0"
 dependencies = [
  "aws-config",
  "aws-sdk-dynamodb",
+ "aws-smithy-types",
  "serde",
  "serde_json",
  "tauri",

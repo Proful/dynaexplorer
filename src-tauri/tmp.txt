@@ -1,0 +1,97 @@
+[src/main.rs:63] table_desc = TableDescription {
+    attribute_definitions: Some(
+        [
+            AttributeDefinition {
+                attribute_name: Some(
+                    "PK",
+                ),
+                attribute_type: Some(
+                    S,
+                ),
+            },
+            AttributeDefinition {
+                attribute_name: Some(
+                    "SK",
+                ),
+                attribute_type: Some(
+                    S,
+                ),
+            },
+        ],
+    ),
+    table_name: Some(
+        "sketchnotes_dev_v1",
+    ),
+    key_schema: Some(
+        [
+            KeySchemaElement {
+                attribute_name: Some(
+                    "PK",
+                ),
+                key_type: Some(
+                    Hash,
+                ),
+            },
+            KeySchemaElement {
+                attribute_name: Some(
+                    "SK",
+                ),
+                key_type: Some(
+                    Range,
+                ),
+            },
+        ],
+    ),
+    table_status: Some(
+        Active,
+    ),
+    creation_date_time: Some(
+        DateTime {
+            seconds: 1657612689,
+            subsecond_nanos: 811000108,
+        },
+    ),
+    provisioned_throughput: Some(
+        ProvisionedThroughputDescription {
+            last_increase_date_time: Some(
+                DateTime {
+                    seconds: 0,
+                    subsecond_nanos: 0,
+                },
+            ),
+            last_decrease_date_time: Some(
+                DateTime {
+                    seconds: 0,
+                    subsecond_nanos: 0,
+                },
+            ),
+            number_of_decreases_today: Some(
+                0,
+            ),
+            read_capacity_units: Some(
+                1,
+            ),
+            write_capacity_units: Some(
+                1,
+            ),
+        },
+    ),
+    table_size_bytes: 430,
+    item_count: 4,
+    table_arn: Some(
+        "arn:aws:dynamodb:ddblocal:000000000000:table/sketchnotes_dev_v1",
+    ),
+    table_id: None,
+    billing_mode_summary: None,
+    local_secondary_indexes: None,
+    global_secondary_indexes: None,
+    stream_specification: None,
+    latest_stream_label: None,
+    latest_stream_arn: None,
+    global_table_version: None,
+    replicas: None,
+    restore_summary: None,
+    sse_description: None,
+    archival_summary: None,
+    table_class_summary: None,
+}
